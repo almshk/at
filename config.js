@@ -5,8 +5,9 @@ exports.config = {
     runner: 'local',
     specs: [
       
-          "./specs/01_createNewPO.spec.js"
-      
+         [ "./specs/01_createNewPO.spec.js",
+          "./specs/02_checkList.spec.js"
+    ],
     ],
 
     params: {

@@ -1,4 +1,5 @@
 require('dotenv').config()
+var standardZPO = require( '../data/standardZPO.json');
 
 describe("Create new Purchase Order", function() {
     
@@ -8,7 +9,7 @@ describe("Create new Purchase Order", function() {
     
     it ("Step 02: Login", async function() {
         await ui5.session.login(process.env.USER, process.env.PASSWORD);
-        await util.browser.sleep (2000);
+        //await util.browser.sleep (2000);
     });
     
     it ('Step 03: Click Create', async function(){
@@ -166,11 +167,12 @@ describe("Create new Purchase Order", function() {
                 "metadata": "sap.m.Input",
                 "bindingContextPath": "/C_PurchaseOrderItemTP*PurchaseOrder=''*PurchaseOrderItem='00010'*",
                 "value": [{
-                    "path": "PurchaseOrderQuantityUnit"
-                }]
+                    "path": "OrderQuantity"
+                }],
+                "ariaLabelledBy": ["*ItemsFacet::Table-OrderQuantity-header"]
             }
-    }
-    
+        };
+           
         const valueToEnter = "10";
         await ui5.userInteraction.clearAndFill(selector, valueToEnter);
     });
@@ -198,17 +200,19 @@ describe("Create new Purchase Order", function() {
             }
         };
 
-        const purchaseOrderId = await ui5.element.getPropertyValue(selector, "text");
-        util.console.log(purchaseOrderId);
+        const purchaseOrderID = await ui5.element.getPropertyValue(selector, "text");
+        /*util.console.log(purchaseOrderID);
         const userData = {
-            "purchaseOrder": purchaseOrderId
+            "purchaseOrder": purchaseOrderID
         };
 
-        browser.config.purchaseOrderNumber = userData;
+        browser.config.purchaseOrderNumber = userData;*/
 
         const references = browser.config.params.import.data ["references"];
-        references.purchaseOrderNumber = purchaseOrderId;
+        references.purchaseOrderNumber = purchaseOrderID;
     });
+
+
 
     it ('Step 17: Logging Out',  async function(){
          await ui5.session.logout();
